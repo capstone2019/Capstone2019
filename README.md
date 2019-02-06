@@ -1,6 +1,6 @@
 # Capstone 2019 - Team Empower
 
-## Project Description
+## Chronic Disease Disparities Project
 
 Home Care Aides (HCAs) are the future of long-term care in the USA, allowing older adults and people with disabilities live in the community, and age in place.
 
