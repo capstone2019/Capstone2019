@@ -63,12 +63,12 @@ year_three_data <- med_revise %>%
   summarise(num = n())
 colnames(year_three_data) <- c("2018", "num")
 
-ggplot() + 
-  geom_line(data = year_one_data, aes(x = `2016`, y = num), color = "blue") +
-  geom_line(data = year_two_data, aes(x = `2017`, y = num), color = "red") +
-  geom_line(data = year_three_data, aes(x = `2018`, y = num), color = "black") +
-  xlab('Age') +
-  ylab('Number of people')
+age <- med_revise %>% 
+  group_by(Incurred.Year)
+
+# ggplot(age, aes(x=Incurred.Year, y=Age, group=Incurred.Year) + 
+#   geom_boxplot()
+
 
 ggplot(med_revise) + 
   geom_line(aes(x=Age), stat="count") +
