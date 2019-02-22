@@ -4,6 +4,7 @@ author: "Yasmine, Anni, Vanessa, Katie"
 output: html_document
 ---
 
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
@@ -106,4 +107,194 @@ ggplot(data=icd[1:10,], aes(x=reorder(Primary.ICD.Rollup, count), y=count)) +
   coord_flip() +
   labs(title = "Most Common ICD", x = "ICD Rollups")
 
+```
+
+We can do the same thing for CCHG. *Active cancer* is the most occurent.
+
+```{r, echo=FALSE}
+# Icd rollup distribution
+cchg <- med_revise %>% 
+  group_by(CCHG.Label) %>% 
+  distinct(Claim.ID) %>% 
+  summarize(count=n()) %>% 
+  arrange(desc(count))
+
+ggplot(data=cchg[1:10,], aes(x=reorder(CCHG.Label, count), y=count)) +
+  geom_bar(position="dodge",stat="identity", fill = 'lightblue') + 
+  coord_flip() +
+  labs(title = "Most Common CCHG", x = "CCHG") +
+  scale_x_discrete(
+    labels=c("125 - Other chronic conditions","116 - Neurologic disorders","104 - Renal failure - post transplant","108 - Severe heart failure/transplant...","118 - Chronic Musculoskeletal/Osteo...", "113 - Hypertension (Includes stroke...", "137 - Healthy Female (16-40)", "112 - Diabetes without CAD", "138 - Healthy Female (41-64)", "	
+103 - Active cancer") 
+    ) 
+
+```
+
+## Mapping by zip code
+
+``` {r echo=FALSE}
+
+zips <- med_revise %>%
+  group_by(Zip..5.digit.) %>%
+  summarise(count = n())
+
+names(zips) <- c("zip", "value")
+
+
+library(zipcode)
+
+data(zipcode)
+zips$zip<- clean.zipcodes(zips$zip)
+zips <- left_join(zips, zipcode, by = 'zip')
+
+
+```
+
+First, an interesting find is that the data does not only include Washington data, as shown below.
+
+``` {r echo=FALSE}
+zip_state <- zips%>%
+  group_by(state) %>%
+  summarise(count = n())
+
+ggplot(data=zip_state, aes(x=reorder(state, count), y=count)) +
+  geom_bar(position="dodge",stat="identity", fill = 'light green') + 
+  coord_flip() +
+  labs(title = "Number of Claims by Sate", x = "State", y = "Count")
+
+
+```
+
+
+
+``` {r echo=FALSE}
+
+# Map the claims!
+
+
+# g <- list(
+#   scope = 'usa',
+#   projection = list(type = 'albers usa'),
+#   showland = TRUE,
+#   landcolor = toRGB("gray85"),
+#   subunitwidth = 1,
+#   countrywidth = 1,
+#   subunitcolor = toRGB("white"),
+#   countrycolor = toRGB("white")
+# )
+# 
+# 
+# map <- plot_geo(zips, locationmode = 'USA-states', sizes = c(1, 250)) %>%
+#   add_markers(
+#     x = ~longitude, y = ~latitude, size = ~value, hoverinfo = "text",
+#     text = ~paste(zips$city, "<br />", zips$state)
+#   ) %>%
+#   layout(title = 'Claims', geo = g)
+# 
+# map
+
+
+###
+
+# Another try
+# needs API Key for ggmap get_map
+# library(ggmap)
+# get_map("Washington", zoom = 12) %>% ggmap() +
+#   geom_point(data = zips, aes(x = longitude, y = latitude), color = 'red', size = 3)
+
+```
+
+
+## Side Work
+
+```{r, echo=FALSE}
+employee_type <- pharm %>% 
+  group_by(Employee.Type) %>% 
+  distinct(Claim.ID) %>% 
+  summarize(n=n()) %>% 
+  arrange(desc(n))
+
+ggplot(employee_type) + 
+  geom_bar(aes(x=Employee.Type, y=n), stat = "identity") +
+  labs(title = "Employee Type Count", x = "Employee Type", y = "Count")
+```
+
+```{r, echo=FALSE}
+#Chronic disease by gender
+med_gender <- med_revise %>% 
+  group_by(CCHG.Label, Member.Gender) %>% 
+  distinct(Claim.ID) %>% 
+  summarize(n=n()) %>% 
+  arrange(CCHG.Label)
+
+top_10 <- med_gender %>% arrange(desc(n))
+kable(top_10[1:10,])
+```
+
+```{r, echo=FALSE}
+#Chronic disease by age
+med_age <- med_revise %>% 
+  group_by(CCHG.Label, Age) %>% 
+  distinct(Claim.ID) %>% 
+  summarize(n=n()) %>% 
+  arrange(CCHG.Label)
+
+top_10 <- med_age %>% arrange(desc(n))
+kable(top_10[1:10,])
+```
+
+```{r, echo=FALSE}
+#Chronic disease by zipcode
+med_zip <- med_revise %>% 
+  group_by(CCHG.Label, Zip..5.digit.) %>% 
+  distinct(Claim.ID) %>% 
+  summarize(n=n()) %>% 
+  arrange(CCHG.Label)
+
+top_10 <- med_zip %>% arrange(desc(n))
+kable(top_10[1:10,])
+```
+
+```{r, echo=FALSE}
+#plot of 2016 Chronic disease by gender and age
+med_analysis_2016 <- med_revise %>% 
+  filter(Incurred.Year == 2016) %>% 
+  group_by(CCHG.Label, Age, Member.Gender) %>% 
+  distinct(Claim.ID) %>% 
+  summarize(n=n()) %>% 
+  arrange(CCHG.Label) %>% 
+  ggplot() +
+  geom_point(mapping = aes(x = Age, y = n, color = Member.Gender)) +
+  facet_wrap(~CCHG.Label)
+
+med_analysis_2016
+```
+
+```{r, echo=FALSE}
+#plot of 2017 Chronic disease by gender and age
+med_analysis_2017 <- med_revise %>% 
+  filter(Incurred.Year == 2017) %>% 
+  group_by(CCHG.Label, Age, Member.Gender) %>% 
+  distinct(Claim.ID) %>% 
+  summarize(n=n()) %>% 
+  arrange(CCHG.Label) %>% 
+  ggplot() +
+  geom_point(mapping = aes(x = Age, y = n, color = Member.Gender)) +
+  facet_wrap(~CCHG.Label)
+med_analysis_2017
+```
+
+```{r, echo=FALSE}
+#plot of 2018 Chronic disease by gender and age
+med_analysis_2018 <- med_revise %>% 
+  filter(Incurred.Year == 2018) %>% 
+  group_by(CCHG.Label, Age, Member.Gender) %>% 
+  distinct(Claim.ID) %>% 
+  summarize(n=n()) %>% 
+  arrange(CCHG.Label) %>% 
+  ggplot() +
+  geom_point(mapping = aes(x = Age, y = n, color = Member.Gender)) +
+  facet_wrap(~CCHG.Label)
+
+med_analysis_2018
 ```
