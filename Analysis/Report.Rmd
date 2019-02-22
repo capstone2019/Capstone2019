@@ -1,5 +1,6 @@
 ---
-title: "First Look"
+title: "2016 - 2018 Data Analysis Report"
+author: "Team Empower"
 output: html_document
 ---
 
@@ -14,32 +15,63 @@ med <- read.csv('~/Desktop/Demographic/claims_med_interns_2016-2018.csv')
 pharm <- read.csv('~/Desktop/Demographic/claims_pharm_capstone_2016-2018.csv')
 
 #med data analysis
-print(colnames(med))
 med_revise <- med %>% select("Claim.ID", "Member.Gender", "Age", "Zip..5.digit.", 
                          "Primary.ICD.Diagnosis.Code", "Primary.ICD.Rollup",
-                         "Revenue.Code", "DRG.Code", "CCHG.Grouping", "CCHG.Label",
-                         "Incurred.Year")
+                         "Incurred.Year", "CCHG.Label")
 ```
 
 ## Med Data Analysis
+This graph shows the gender distribution in the current data.The red color in the graph represents the number of female and the blue color represents the number of male workers.
+As you can see, __the ratio of female workers to male workers is roughly 7:1__.
 ```{r, echo=FALSE}
 #Gender Distribution
 ggplot(med_revise) + 
-  geom_histogram(aes(x=Member.Gender), stat="count") +
-  labs(title = "Gender Distribution", x = "Gender", y = "Count")
+  geom_bar(aes(x=Member.Gender, color=Member.Gender, fill = Member.Gender)) +
+  labs(title = "Gender Distribution", x = "Gender", y = "Count") +
+  scale_y_continuous(name="Fluorescent intensity/arbitrary units", labels = scales::comma) +
+  theme(axis.title.y = element_text(margin = margin(t = 0, r = 20, b = 0, l = 0)))
 ```
 
-```{r, echo=FALSE}
+This graph shows the age distribution of the workers by gender. The red color represents female workers and the blue color represents the male workeres. 
+The graph shows that __more than 50% of the workers from 2016 - 2018 are between age 50 and 70__. This distribution applies to both female and male workers.
+```{r, echo=FALSE, message=FALSE}
 #Age Distribution
 ggplot(med_revise) + 
-  geom_histogram(aes(x=Age), stat="count") +
-  labs(title = "Age Distribution", x = "Age", y = "Count")
+  geom_histogram(aes(x=Age, color=Member.Gender), fill="white", stat="count") +
+  labs(title = "Age Distribution", x = "Age", y = "Count") +
+  theme(axis.title.y = element_text(margin = margin(t = 0, r = 20, b = 0, l = 0)))
 ```
 
 ```{r, echo=FALSE}
 #Age Distribution by Year
+year_one_data <- med_revise %>% 
+  filter(Incurred.Year == 2016) %>%  
+  select(Age) %>% 
+  group_by(Age) %>% 
+  summarise(num = n())
+colnames(year_one_data) <- c("2016", "num")
+year_two_data <- med_revise %>% 
+  filter(Incurred.Year == 2017) %>%  
+  select(Age) %>% 
+  group_by(Age) %>% 
+  summarise(num = n())
+colnames(year_two_data) <- c("2017", "num")
+year_three_data <- med_revise %>% 
+  filter(Incurred.Year == 2018) %>% 
+  select(Age) %>% 
+  group_by(Age) %>% 
+  summarise(num = n())
+colnames(year_three_data) <- c("2018", "num")
+
+ggplot() + 
+  geom_line(data = year_one_data, aes(x = `2016`, y = num), color = "blue") +
+  geom_line(data = year_two_data, aes(x = `2017`, y = num), color = "red") +
+  geom_line(data = year_three_data, aes(x = `2018`, y = num), color = "black") +
+  xlab('Age') +
+  ylab('Number of people')
+
 ggplot(med_revise) + 
-  geom_histogram(aes(x=Age), stat="count") +
+  geom_line(aes(x=Age), stat="count") +
   labs(title = "Age Distribution", x = "Age", y = "Count") +
   facet_wrap(~Incurred.Year)
 ```
