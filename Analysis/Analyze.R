@@ -3,15 +3,15 @@ library('PerformanceAnalytics') #find correlation chart.Correlation()
 library("ggplot2")
 
 #Read in the data()
-med <- read.csv('~/Desktop/Demographic/claims_med_interns_2016-2018.csv')
-pharm <- read.csv('~/Desktop/Demographic/claims_pharm_capstone_2016-2018.csv')
+med <- read.csv('data/claims_med_interns_2016-2018.csv')
+pharm <- read.csv('data/claims_pharm_capstone_2016-2018.csv')
 
 #med data analysis
 print(colnames(med))
 med_revise <- med %>% select("Claim.ID", "Member.Gender", "Age", "Zip..5.digit.", 
-                         "Primary.ICD.Diagnosis.Code", "Primary.ICD.Rollup",
-                         "Revenue.Code", "DRG.Code", "CCHG.Grouping", "CCHG.Label",
-                         "Incurred.Year")
+                             "Primary.ICD.Diagnosis.Code", "Primary.ICD.Rollup",
+                             "Revenue.Code", "DRG.Code", "CCHG.Grouping", "CCHG.Label",
+                             "Incurred.Year")
 
 #Chronic disease by gender
 med_gender <- med_revise %>% 
