@@ -20,39 +20,39 @@ The primary objective of the health disparities project is to __understand dispa
 
 ## Team Profile
 
-![SEIU logo](/Team/SEIU.png)
+![SEIU logo](/Pic/SEIU.png)
 
 __SEIU 775 Benefits Group__
 > The nation’s leading organization dedicated to improving the skills, health and sustainability of the home care workforce.
 Using innovation and technology, we partner with government, labor and private industries ensuring that Washington home care workers have access to the skills and benefits they need to thrive [(Learn more)](https://www.myseiubenefits.org/about/).
 
-![iSchool](/Team/iSchool.png)
+![iSchool](/Pic/iSchool.png)
 
 __UW iSchool Capstone__
 >Students identify an information problem or need. They then develop the approach and methods needed to address the problem, conduct the research and present the findings in both oral and written formats [(Learn more)](https://ischool.uw.edu/capstone).
 
-![Yasmine](/Team/Yasmine.png)
+![Yasmine](/Pic/Yasmine.png)
 
 __Yasmine Hejazi__
 - Role: Data Analyst
 - Email: yhejazi@uw.edu
 - Experience: Data Analyst Intern at PEMCO Insurance, Software Engineer Intern at Empower UC Berkeley, Research Assistant at UW Sociolinguistics Lab
 
-![Vanessa](/Team/Vanessa.png)
+![Vanessa](/Pic/Vanessa.png)
 
 __Vanessa Hsu__
 - Role: Data Analyst
 - Email: vaneshsu@uw.edu
 - Experience: Software Development Intern at AT&T, Software Engineer Apprentice at Expedia
 
-![Anni](/Team/Anni.png)
+![Anni](/Pic/Anni.png)
 
 __Anni Yan__
 - Role: UX Designer
 - Email: yan530@uw.edu
 - Experience: Program Coordinator Assistant at UW Continuum, Teaching Assistant at UW iSchool, Project Management Assistant at Portedi
 
-![Katie](/Team/Katie.png)
+![Katie](/Pic/Katie.png)
 
 __Katie Breland__
 - Role: Technical Writer

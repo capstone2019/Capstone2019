@@ -15,8 +15,8 @@ library(knitr)
 library(plotly)
 
 #Read in the data()
-med <- read.csv('data/claims_med_interns_2016-2018.csv')
-pharm <- read.csv('data/claims_pharm_capstone_2016-2018.csv')
+med <- read.csv('~/Desktop/Demographic/claims_med_interns_2016-2018.csv')
+pharm <- read.csv('~/Desktop/Demographic/claims_pharm_capstone_2016-2018.csv')
 
 #med data analysis
 med_revise <- med %>% select("Claim.ID", "Member.Gender", "Age", "Zip..5.digit.", 
@@ -77,11 +77,11 @@ year_three_data <- med_revise %>%
 
 colnames(year_three_data) <- c("2018", "num")
 
-ggplot() + 
-  geom_line(data = year_one_data, aes(x = `2016`, y = num), color = "blue") +
-  geom_line(data = year_two_data, aes(x = `2017`, y = num), color = "red") +
-  geom_line(data = year_three_data, aes(x = `2018`, y = num), color = "black") +
-  labs(title = "Age Distribution by Year", x = "Age", y = "Number of Claims")
+# ggplot() + 
+#   geom_line(data = year_one_data, aes(x = `2016`, y = num), color = "blue") +
+#   geom_line(data = year_two_data, aes(x = `2017`, y = num), color = "red") +
+#   geom_line(data = year_three_data, aes(x = `2018`, y = num), color = "black") +
+#   labs(title = "Age Distribution by Year", x = "Age", y = "Number of Claims")
 
 ggplot(med_revise) + 
   geom_line(aes(x=Age), stat="count") +
