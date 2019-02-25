@@ -15,8 +15,8 @@ library(knitr)
 library(plotly)
 
 #Read in the data()
-med <- read.csv('claims_med_interns_2016-2018.csv', stringsAsFactors = F)
-pharm <- read.csv('claims_pharm_capstone_2016-2018.csv', stringsAsFactors = F)
+med <- read.csv('data/claims_med_interns_2016-2018.csv', stringsAsFactors = F)
+pharm <- read.csv('data/claims_pharm_capstone_2016-2018.csv', stringsAsFactors = F)
 
 #med data analysis
 med_revise <- med %>% select("Member.ID.Encrypted", "Claim.ID","Member.Gender",
