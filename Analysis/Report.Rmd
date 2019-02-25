@@ -325,5 +325,28 @@ health_factors_by_cchg <- med_revise %>%
   head(10)
 
 kable(health_factors_by_cchg)
+```
 
+## Chronic Disease 
+The two tables below show the top ten chronic diseases influencing healthcare workers. THe first graph is by ICD diagnosis code and the second table is by cCHG Label.
+```{r, echo=FALSE}
+chronic_disease_by_icd_rollup <- med_revise %>% 
+   filter(Primary.ICD.Rollup != "Factors influencing health care") %>% 
+   group_by(Primary.ICD.Diagnosis.Code, Primary.ICD.Rollup) %>% 
+   distinct(Member.ID.Encrypted) %>% 
+   summarize(num = n()) %>%
+  arrange(desc(num)) %>% 
+  head(10)
+
+kable(chronic_disease_by_icd_rollup)
+
+chronic_disease_by_cchg <- med_revise %>% 
+   filter(Primary.ICD.Rollup != "Factors influencing health care") %>% 
+   group_by(CCHG.Label) %>% 
+   distinct(Member.ID.Encrypted) %>% 
+   summarize(num = n()) %>%
+  arrange(desc(num)) %>% 
+  head(10)
+
+kable(chronic_disease_by_cchg)
 ```
