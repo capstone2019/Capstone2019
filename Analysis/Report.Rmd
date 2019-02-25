@@ -9,19 +9,22 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 
 library(dplyr)
-library(PerformanceAnalytics) #find correlation chart.Correlation()
+#library(PerformanceAnalytics) #find correlation chart.Correlation()
 library(ggplot2)
 library(knitr)
 library(plotly)
 
 #Read in the data()
-med <- read.csv('~/Desktop/Demographic/claims_med_interns_2016-2018.csv')
-pharm <- read.csv('~/Desktop/Demographic/claims_pharm_capstone_2016-2018.csv')
+med <- read.csv('claims_med_interns_2016-2018.csv', stringsAsFactors = F)
+pharm <- read.csv('claims_pharm_capstone_2016-2018.csv', stringsAsFactors = F)
 
 #med data analysis
-med_revise <- med %>% select("Claim.ID", "Member.Gender", "Age", "Zip..5.digit.", 
-                         "Primary.ICD.Diagnosis.Code", "Primary.ICD.Rollup",
-                         "Incurred.Year", "CCHG.Label")
+med_revise <- med %>% select("Member.ID.Encrypted", "Claim.ID","Member.Gender",
+                             "Age","Primary.ICD.Diagnosis.Code","Primary.ICD.Rollup",
+                      "X2nd.ICD.Diagnosis.Code","X2nd.ICD.Rollup",
+                      "X3rd.ICD.Diagnosis.Code","X3rd.ICD.Rollup",
+                      "X4th.ICD.Diagnosis.Code", "X4th.ICD.Rollup", 
+                      "Incurred.Year", "CCHG.Label", "Zip..5.digit.")
 
 ```
 
@@ -297,4 +300,30 @@ med_analysis_2018 <- med_revise %>%
   facet_wrap(~CCHG.Label)
 
 med_analysis_2018
+```
+
+##Primary.ICD.Rollup is factors influcening health
+The two graphs below shows the top ten factors influencing healthcare worker's health. THe first graph is by diagnose code and the second one is by cCHG Label. 
+```{r, echo=FALSE}
+
+health_factors_by_code <- med_revise %>% 
+   filter(Primary.ICD.Rollup == "Factors influencing health care") %>% 
+   group_by(Primary.ICD.Diagnosis.Code) %>% 
+   distinct(Member.ID.Encrypted) %>% 
+   summarize(num = n()) %>%
+  arrange(desc(num)) %>% 
+  head(10)
+
+kable(health_factors_by_code)
+
+health_factors_by_cchg <- med_revise %>% 
+   filter(Primary.ICD.Rollup == "Factors influencing health care") %>% 
+   group_by(CCHG.Label) %>% 
+   distinct(Member.ID.Encrypted) %>% 
+   summarize(num = n()) %>%
+  arrange(desc(num)) %>% 
+  head(10)
+
+kable(health_factors_by_cchg)
+
 ```
