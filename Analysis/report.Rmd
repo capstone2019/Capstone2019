@@ -28,7 +28,9 @@ med_revise <- med %>% select("Member.ID.Encrypted", "Claim.ID","Member.Gender",
 source('get_chronic.R')
 ```
 
-## What are the most common chronic diseases?
+## 1. What are the most common chronic diseases?
+
+### 1.1 Chronic Diseases of Interest
 
 Our goal is to understand the prevalance and determinants of chronic diseases in Washington State. To do this, we want to first get an understanding of the occurrence of these diseases in the claims data.
 
@@ -48,20 +50,44 @@ The relevant chronic conditions (and their respective ICD-10 codes) we will focu
 
 
 ``` {r echo=FALSE}
-# cd <- med_revise %>% 
-#   filter(grepl('injury', Primary.ICD.Rollup)) %>% 
-#   group_by(Primary.ICD.Rollup) %>% 
-#   distinct(Member.ID.Encrypted) %>% 
-#   summarise(count = n())
+chronic <- all %>% 
+  group_by(label) %>% 
+  distinct(Member.ID.Encrypted) %>% 
+  summarize(count=n()) %>% 
+  arrange(desc(count))
+
+ggplot(data=chronic, aes(x=reorder(label, count), y=count)) +
+  geom_bar(position="dodge",stat="identity", fill = 'red') + 
+  coord_flip() +
+  labs(title = "Occurrences of Chronic Disease", x = "Chronic Disease")
+
 ```
 
-Let's look into the occurrences of types of cancer we see in our HCA population
+We can observe from this visual that **Cardiovascular** is the most occurring chronic disease by claims.
+
+One limitation we observe is the involvement of filtering to distint member ID. We want to do this to avoid accounting for recurring claims for the same ICD for that member, as that may skew the data towards the chronic condition they have. However, having this become distinct leaves out claims a member would file for different reasons. *We need to address this*.
+
+Another limitation is not including the other ICD Rollup codes provided apart from Primary.ICD.Rollup. We also see that if there is no other Rollup involved in that claim, the same Rollup label is sometimes used for X2nd.ICD.Rollup, X3rd, and X4th. We need to account for this so we do not have the same single ICD Rollup code accounted for 4 times for the claim. We plan to address this by
+
+1. Create a column with a list of all ICD Rollups (Primary, X2nd, X3rd, X4th)
+2. Narrow lists down to only include *unique* ICD Rollups
+
+Once this is done, we will address the first limitation mentioned above.
+
+### 1.2 Diving into Cancer
+
+We observe that cancer can be broken down into many different types, and this can be important to address. Now let's look into the occurrences of types of cancer we see in our HCA population.
 
 ``` {r echo=FALSE}
 cancer_type <- cancer %>% 
   group_by(Primary.ICD.Rollup) %>% 
   distinct(Member.ID.Encrypted) %>% 
   summarise(count = n())
+
+ggplot(data=cancer_type, aes(x=reorder(Primary.ICD.Rollup, count), y=count)) +
+  geom_bar(position="dodge",stat="identity", fill = 'pink') + 
+  coord_flip() +
+  labs(title = "Occurrences of Cancer", x = "Type of Cancer")
 ```
 
 Next steps: We will continue to research ICD-10 codes to see what may correspond with the chronic diseases of interest. We will also begin to incorporate other ICD Rollups provided along with the Primary ICD Rollups we have included into our visualizations.

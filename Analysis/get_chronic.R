@@ -1,3 +1,5 @@
+# Get data of chronic diseases of interest into separate dataframes for further analysis
+
 diabetes <- med_revise %>% 
   filter(grepl('Diabetes', Primary.ICD.Rollup)) %>%
   mutate(label = 'Diabetes')
@@ -47,3 +49,10 @@ pain <- med_revise %>%
 injury <- med_revise %>% 
   filter(grepl('injury', Primary.ICD.Rollup)) %>%
   mutate(label = 'Injury')
+
+
+
+# All joined together
+all <- rbind(diabetes, hypertension, obesity, cancer, musculoskeletal, cardiovascular,
+             asthma, copd, cholesterol, sleep_disorders, pain, injury)
+
