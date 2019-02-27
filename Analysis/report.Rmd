@@ -161,7 +161,8 @@ Next steps: We will continue to research ICD-10 codes to see what may correspond
 
 ## 2. Instances of chronic disease by location
 
-Insert here
+Tableau visualizations of chronic disease by county shown [here](https://public.tableau.com/profile/katie.breland#!/vizhome/Book1dealingwithcounties/ChronicConditionbyCountyDashboard).
+
 
 ```{r echo=FALSE} 
 
