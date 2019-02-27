@@ -63,7 +63,9 @@ ggplot(data=chronic, aes(x=reorder(label, count), y=count)) +
 
 ```
 
-We can observe from this visual that **Cardiovascular** is the most occurring chronic disease by claims.
+We can observe from this visual that **Cardiovascular** is the most occurring chronic disease by claims, whereas the least occurring disease is **Pain**. We will look into what pain really means in terms of chronic conditions.
+
+*Limitations*
 
 One limitation we observe is the involvement of filtering to distint member ID. We want to do this to avoid accounting for recurring claims for the same ICD for that member, as that may skew the data towards the chronic condition they have. However, having this become distinct leaves out claims a member would file for different reasons. *We need to address this*.
 
@@ -74,7 +76,53 @@ Another limitation is not including the other ICD Rollup codes provided apart fr
 
 Once this is done, we will address the first limitation mentioned above.
 
-### 1.2 Diving into Cancer
+
+
+### 1.2 What's up with Cardiovascular?
+
+Cardiovascular includes claims with the Primary ICD Rollup of *"Diseases of the Heart."* Cardiovascular has a lot of ICD codes involved, which could attest to its volume shown in the visual above. Let's break it down to see what's really going on!
+
+``` {r echo=FALSE}
+cardio_type <- cardiovascular %>% 
+  group_by(Primary.ICD.Diagnosis.Code) %>% 
+  distinct(Member.ID.Encrypted) %>% 
+  summarise(count = n()) %>%
+  arrange(-count)
+
+ggplot(data=cardio_type[1:10,], aes(x=reorder(Primary.ICD.Diagnosis.Code, count), y=count)) +
+  geom_bar(position="dodge",stat="identity", fill = 'blue') + 
+  coord_flip() +
+  labs(title = "Most Common Cardiovascular Types", x = "Type of CardioVascular")
+```
+
+
+We actually have **`r nrow(cardio_type)`** ICD codes falling under Cardiovascular chronic disease!
+
+Translations of Codes:
+
+**R079**: Chest pain, unspecified
+
+**R0789**: Other chest pain
+
+**R002**: Palpitations
+
+**I2510**: Atherosclerotic heart disease of native coronary artery without angina pectoris
+
+**I4891**: Unspecified atrial fibrillation
+
+**I480**: Paroxysmal atrial fibrillation
+
+**R072**: Precordial pain
+
+**I214**: Non-ST elevation (NSTEMI) myocardial infarction
+
+**R000**: Tachycardia, unspecified
+
+**I471**: Supraventricular tachycardia
+
+
+
+### 1.3 Diving into Cancer
 
 We observe that cancer can be broken down into many different types, and this can be important to address. Now let's look into the occurrences of types of cancer we see in our HCA population.
 
@@ -90,16 +138,38 @@ ggplot(data=cancer_type, aes(x=reorder(Primary.ICD.Rollup, count), y=count)) +
   labs(title = "Occurrences of Cancer", x = "Type of Cancer")
 ```
 
+**Breast cancer** appears to be our most occurring cancer in the HCA population, while **Cancer of male genital organs** appears to be the least occurring. We can perhaps attest this to the gender distribution of our HCA population. Because we have *significantly less males than females*, we are bound to see less occurrence of a cancer associated with males and more associated with women. We can see the gender distribution of our HCA population who have filed at least one claim below.
+
+``` {r echo=FALSE}
+gender_df <- med_revise %>% select(Member.ID.Encrypted, Member.Gender) %>%
+  distinct(Member.ID.Encrypted, .keep_all = TRUE)
+
+female <- gender_df %>% filter(Member.Gender == 'F')
+
+ggplot(gender_df) + 
+  geom_bar(aes(x=Member.Gender, color=Member.Gender, fill = Member.Gender)) +
+  labs(title = "Gender Distribution of HCA Population", x = "Gender", y = "Count") +
+  scale_y_continuous(labels = scales::comma) +
+  theme(axis.title.y = element_text(margin = margin(t = 0, r = 20, b = 0, l = 0)))
+
+```
+
+Of the HCA population that filed claims (*`r nrow(gender_df)`* members), **`r round(nrow(female)/nrow(gender_df), 2) * 100`%** are female and only **`r round((nrow(gender_df) - nrow(female)) / nrow(gender_df), 2) * 100`%** are male.
+
 Next steps: We will continue to research ICD-10 codes to see what may correspond with the chronic diseases of interest. We will also begin to incorporate other ICD Rollups provided along with the Primary ICD Rollups we have included into our visualizations.
 
 
-## Instances of chronic disease by location
+## 2. Instances of chronic disease by location
+
+Insert here
 
 ```{r echo=FALSE} 
 
 ```
 
-## What is the age distribution for chronic disease?
+## 3. What is the age distribution for chronic disease?
+
+Insert here
 
 ```{r echo=FALSE} 
 
@@ -107,7 +177,9 @@ Next steps: We will continue to research ICD-10 codes to see what may correspond
 
 
 ```{r echo=F}
-#This person had 13 service lines and showed up 13 times on the table. Therefore, we should use unique memberID/claim ID. However, if the same person has a different claim, it would only show the first one. Therefore, we cannot use unique id.
+# Notes
+
+# This person had 13 service lines and showed up 13 times on the table. Therefore, we should use unique memberID/claim ID. However, if the same person has a different claim, it would only show the first one. Therefore, we cannot use unique id.
 
 multiple_claim <- med %>% 
   filter(Claim.ID == "180952D2AB000")
