@@ -13,7 +13,7 @@ obesity <- med_revise %>%
   mutate(label = 'Obesity')
 
 cancer <- med_revise %>% 
-  filter(grepl('Cancer', Primary.ICD.Rollup)) %>%
+  filter(grepl('Cancer', Primary.ICD.Rollup) | grepl('cancer', Primary.ICD.Rollup)) %>%
   mutate(label = 'Cancer')
 
 musculoskeletal <- med_revise %>% 
