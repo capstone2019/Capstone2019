@@ -47,6 +47,4 @@ multiple_claim <- med %>%
 #Sleep disorders (insomnia ICD-10 is G47)
 #Pain
 #Injury
-
-
 ```
