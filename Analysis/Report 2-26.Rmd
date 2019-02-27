@@ -26,22 +26,27 @@ med_revise <- med %>% select("Member.ID.Encrypted", "Claim.ID","Member.Gender",
   filter(med$Zip..5.digit. < 99999 & med$Zip..5.digit. > 98000)
 ```
 
-## R Markdown
+```{r echo=F}
+#This person had 13 service lines and showed up 13 times on the table. Therefore, we should use unique memberID/claim ID. However, if the same person has a different claim, it would only show the first one. Therefore, we cannot use unique id.
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+multiple_claim <- med %>% 
+  filter(Claim.ID == "180952D2AB000")
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
 ```
 
-## Including Plots
+```{r echo=F}
+#chronic condition of interests:
+#Diabetes (excluding gestational diabetes, which has a different ICD-10 code than diabetes mellitus)
+#Hypertension (ICD-10: I10)
+#Obesity (ICD-10: E66)
+#Cancer
+#Musculoskeletal conditions
+#Cardiovascular conditions
+#Asthma and chronic obstructive pulmonary disorder (COPD)
+#Cholesterol
+#Sleep disorders (insomnia ICD-10 is G47)
+#Pain
+#Injury
 
-You can also embed plots, for example:
 
-```{r pressure, echo=FALSE}
-plot(pressure)
 ```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
