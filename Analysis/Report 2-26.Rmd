@@ -37,14 +37,80 @@ multiple_claim <- med %>%
 ```{r echo=F}
 #chronic condition of interests:
 #Diabetes (excluding gestational diabetes, which has a different ICD-10 code than diabetes mellitus)
+diabetes <- med_revise %>% 
+  filter(grepl('Diabetes', Primary.ICD.Rollup)) %>% 
+  group_by(Primary.ICD.Rollup) %>% 
+  distinct(Member.ID.Encrypted) %>% 
+  summarise(count = n())
 #Hypertension (ICD-10: I10)
+hypertension <- med_revise %>% 
+  filter(grepl('I10', Primary.ICD.Diagnosis.Code)) %>% 
+  group_by(Primary.ICD.Rollup) %>% 
+  distinct(Member.ID.Encrypted) %>% 
+  summarise(count = n())
 #Obesity (ICD-10: E66)
+obesity <- med_revise %>% 
+  filter(grepl('E66', Primary.ICD.Diagnosis.Code)) %>% 
+  group_by(Primary.ICD.Rollup) %>% 
+  distinct(Member.ID.Encrypted) %>% 
+  summarise(count = n())
 #Cancer
+cancer <- med_revise %>% 
+  filter(grepl('Cancer', Primary.ICD.Rollup)) %>% 
+  group_by(Primary.ICD.Rollup) %>% 
+  distinct(Member.ID.Encrypted) %>% 
+  summarise(count = n())
 #Musculoskeletal conditions
+musculoskeletal <- med_revise %>% 
+  filter(grepl('musculoskeletal', Primary.ICD.Rollup)) %>% 
+  group_by(Primary.ICD.Rollup) %>% 
+  distinct(Member.ID.Encrypted) %>% 
+  summarise(count = n())
 #Cardiovascular conditions
-#Asthma and chronic obstructive pulmonary disorder (COPD)
-#Cholesterol
-#Sleep disorders (insomnia ICD-10 is G47)
-#Pain
+heart <- med_revise %>% 
+  filter(grepl('heart', Primary.ICD.Rollup)) %>% 
+  group_by(Primary.ICD.Rollup) %>% 
+  distinct(Member.ID.Encrypted) %>% 
+  summarise(count = n())
+#Asthma
+Asthma <- med_revise %>% 
+  filter(grepl('Asthma', Primary.ICD.Rollup)) %>% 
+  group_by(Primary.ICD.Rollup) %>% 
+  distinct(Member.ID.Encrypted) %>% 
+  summarise(count = n())
+#chronic obstructive pulmonary disorder (COPD)
+COPD <- med_revise %>% 
+  filter(grepl('Chronic obstructive pulmonary disease', Primary.ICD.Rollup)) %>% 
+  group_by(Primary.ICD.Rollup) %>% 
+  distinct(Member.ID.Encrypted) %>% 
+  summarise(count = n())
+#Cholesterol (Found online it's E78, but not sure)
+cholesterol <- med_revise %>% 
+  filter(grepl('E78', Primary.ICD.Diagnosis.Code)) %>% 
+  group_by(Primary.ICD.Rollup) %>% 
+  distinct(Member.ID.Encrypted) %>% 
+  summarise(count = n())
+#Sleep disorders (insomnia ICD-10 is G47), lots of unknowns
+#G4700 is Insomnia, unspecified
+#G4710 is Hypersomnia, unspecified
+#G4730 is Sleep apnea, unspecified
+#G4733 is Obstructive sleep apnea (adult) (pediatric)
+#G4739 is Other sleep apnea
+sleep_disorders <- med_revise %>% 
+  filter(grepl('G47', Primary.ICD.Diagnosis.Code)) %>% 
+  group_by(Primary.ICD.Rollup) %>% 
+  distinct(Member.ID.Encrypted) %>% 
+  summarise(count = n())
+#Pain (found ICD = R52, Pain, unspecified), listed as unknown
+pain <- med_revise %>% 
+  filter(grepl('R52', Primary.ICD.Diagnosis.Code)) %>% 
+  group_by(Primary.ICD.Rollup) %>% 
+  distinct(Member.ID.Encrypted) %>% 
+  summarise(count = n())
 #Injury
+injury <- med_revise %>% 
+  filter(grepl('injury', Primary.ICD.Rollup)) %>% 
+  group_by(Primary.ICD.Rollup) %>% 
+  distinct(Member.ID.Encrypted) %>% 
+  summarise(count = n())
 ```
