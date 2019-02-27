@@ -262,7 +262,10 @@ ggplot(obesity_age) +
 
 Unlike the previous chronic diseases, obesity is slightly more evenly distributed. It peaks at several different ages, but more so around ~50 years old; slightly younger than the previous diseases.
 
-Next steps: We will look into the correlation between obesity and other chronic diseases/factors influencing health. It would be interesting to look into whether or not there is any correlation between obesity and income as well.
+##Next steps
+We will look into the __correlation between obesity and other chronic diseases/factors influencing health__. It would be interesting to look into whether or not there is any correlation between obesity and income as well.
+
+
 
 ```{r echo=F}
 # Notes
