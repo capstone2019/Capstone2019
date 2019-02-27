@@ -169,12 +169,100 @@ Insert here
 
 ## 3. What is the age distribution for chronic disease?
 
-Insert here
+### 3.1 Let's take a look at Diabetes
+
+Diabetes can be broken down into two different ICD Rollups; **Diabetes mellitus with complications* and *Diabetes mellitus without complications**.
 
 ```{r echo=FALSE} 
+diabetes_age <- diabetes %>% 
+  group_by(Age, Primary.ICD.Rollup) %>% 
+  distinct(Member.ID.Encrypted) %>% 
+  summarise(count = n())
 
+ggplot(diabetes_age) + 
+  geom_bar(aes(x=Age, y=count, fill=Primary.ICD.Rollup), position="stack", stat="identity") +
+  labs(
+    title="Diabetes by Age",
+    x="Age",
+    y="Count"
+  )
 ```
 
+From the graph above, we can see that both ICD Rollups have similar distributions, with diabetes occuring more often in the older HCA population (~60 years old). However, we have to keep in mind that this distribution is very similar to the overall HCA age distribution.
+
+Next steps: We hope to look into the distributions by different types of diabetes (i.e. Type 1, Type 2). In addition, we will look into the correlation between diabetes and other chronic diseases/factors influencing health of interest.
+
+### 3.2 What about Hypertension?
+
+Hyptension, otherwise known as High Blood Pressure, is a common condition among U.S. adults. Let's look into the age distribution for Hypertension!
+
+```{r echo=FALSE} 
+hypertension_age <- hypertension %>% 
+  group_by(Age) %>% 
+  distinct(Member.ID.Encrypted) %>% 
+  summarise(count = n())
+
+ggplot(hypertension_age) + 
+  geom_bar(aes(x=Age, y=count), stat="identity", fill="pink") +
+  labs(
+    title="Hypertension by Age",
+    x="Age",
+    y="Count"
+  )
+```
+
+As we can see from the graph above, the distribution for Hypertension is similar to the distribution for Diabetes, but we still have to keep in mind the distribution of our overall HCA population. 
+
+Next steps: We want to look into the correlations between Hypertension and different chronic diseases/factors influencing health. Hypertension increases risk for other diseases and many factors such as diet can contribute to Hypertension, so this would be an interesting area to explore.
+
+### 3.3 What can we see with Cancer?
+
+As we saw earlier, there are many different types of cancer. Let's take a look at the top five types of cancer the HCA population have been diagnosed with.
+
+```{r echo=FALSE} 
+top_5_cancer <- cancer_type %>% arrange(desc(count))
+top_5_cancer <- top_5_cancer[1:5,]
+
+cancer_age <- cancer %>% 
+  group_by(Age, Primary.ICD.Rollup) %>% 
+  distinct(Member.ID.Encrypted, Primary.ICD.Rollup) %>% 
+  summarise(count = n()) %>% 
+  filter(Primary.ICD.Rollup %in% top_5_cancer$Primary.ICD.Rollup)
+  
+
+ggplot(cancer_age) + 
+  geom_bar(aes(x=Age, y=count, fill=Primary.ICD.Rollup), position="stack", stat="identity") +
+  labs(
+    title="Top 5 Cancers by Age",
+    x="Age",
+    y="Count"
+  )
+```
+
+We can see that cancer has a similar distribution to diabetes and hypertension. However, when we look at the different types of cancers, we can see that ICD Rollups like **Cancer; other primary** have a more even distribution across the ages. Once again we see much higher occurrences for **Cancer of the breast** most likely due to the high population of female HCAs.
+
+### 3.4 Looking into Obesity
+
+Obesity falls under the **Other nutritional; endocrine; and metabolic disorders** ICD Rollup. What is the distribution of HCAs who were diagnosed with obesity?
+
+```{r echo=FALSE} 
+obesity_age <- obesity %>% 
+  group_by(Age) %>% 
+  distinct(Member.ID.Encrypted) %>% 
+  summarise(count = n())
+
+ggplot(obesity_age) + 
+  geom_bar(aes(x=Age, y=count), stat="identity", fill="orange") +
+  labs(
+    title="Obesity by Age",
+    x="Age",
+    y="Count"
+  )
+```
+
+Unlike the previous chronic diseases, obesity is slightly more evenly distributed. It peaks at several different ages, but more so around ~50 years old; slightly younger than the previous diseases.
+
+Next steps: We will look into the correlation between obesity and other chronic diseases/factors influencing health. It would be interesting to look into whether or not there is any correlation between obesity and income as well.
 
 ```{r echo=F}
 # Notes
