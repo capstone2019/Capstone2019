@@ -41,18 +41,9 @@ sleep_disorders <- med_revise %>%
   filter(grepl('G47', Primary.ICD.Diagnosis.Code)) %>%
   mutate(label = 'Sleep Disorders')
 
-# Primary.ICD.Rollup unknown
-pain <- med_revise %>% 
-  filter(grepl('R52', Primary.ICD.Diagnosis.Code))  %>%
-  mutate(label = 'Pain')
-
-injury <- med_revise %>% 
-  filter(grepl('injury', Primary.ICD.Rollup)) %>%
-  mutate(label = 'Injury')
-
 
 
 # All joined together
 all <- rbind(diabetes, hypertension, obesity, cancer, musculoskeletal, cardiovascular,
-             asthma, copd, cholesterol, sleep_disorders, pain, injury)
+             asthma, copd, cholesterol, sleep_disorders)
 
