@@ -338,18 +338,9 @@ We actually have **`r nrow(sleep_type)`** ICD codes!
 So far, we have been able to break down the primary ICD rollups to correlated ICD codes and descriptions for each interested chronic condition. For the next step, we will sort all the ICD roll-ups(primary to 10th) for each member and analyze the chronic condition overall.
 
 
-## 2. Instances of chronic disease by location
+## 2. What is the age distribution for chronic disease?
 
-Tableau visualizations of chronic disease by county shown [here](https://public.tableau.com/profile/katie.breland#!/vizhome/Book1dealingwithcounties/ChronicConditionbyCountyDashboard).
-
-
-```{r echo=FALSE} 
-
-```
-
-## 3. What is the age distribution for chronic disease?
-
-### 3.1 Let's take a look at Diabetes
+### 2.1 Let's take a look at Diabetes
 
 Diabetes can be broken down into two different ICD Rollups; **Diabetes mellitus with complications** and **Diabetes mellitus without complications**.
 
@@ -378,7 +369,7 @@ From the graph above, we can see that both ICD Rollups have similar distribution
 
 Next steps: We hope to look into the distributions by different types of diabetes (i.e. Type 1, Type 2). In addition, we will look into the correlation between diabetes and other chronic diseases/factors influencing health of interest.
 
-### 3.2 What about Hypertension?
+### 2.2 What about Hypertension?
 
 Hyptension, otherwise known as High Blood Pressure, is a common condition among U.S. adults. Let's look into the age distribution for Hypertension!
 
@@ -403,7 +394,7 @@ As we can see from the graph above, the distribution for Hypertension is similar
 
 Next steps: We want to look into the correlations between Hypertension and different chronic diseases/factors influencing health. Hypertension increases risk for other diseases and many factors such as diet can contribute to Hypertension, so this would be an interesting area to explore.
 
-### 3.3 What can we see with Cancer?
+### 2.3 What can we see with Cancer?
 
 As we saw earlier, there are many different types of cancer. Let's take a look at the top five types of cancer the HCA population have been diagnosed with.
 
@@ -430,7 +421,7 @@ ggplot(cancer_age_percentage) +
 
 We can see that cancer has a similar distribution to diabetes and hypertension. However, when we look at the different types of cancers, we can see that ICD Rollups like **Cancer; other primary** have a more even distribution across the ages. Once again we see much higher occurrences for **Cancer of the breast** most likely due to the high population of female HCAs.
 
-### 3.4 Looking into Obesity
+### 2.4 Looking into Obesity
 
 Obesity falls under the **Other nutritional; endocrine; and metabolic disorders** ICD Rollup. What is the distribution of HCAs who were diagnosed with obesity?
 
