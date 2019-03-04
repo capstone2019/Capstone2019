@@ -192,7 +192,8 @@ ggplot(diabetes_age_percentage) +
     title="Diabetes by Age",
     x="Age",
     y="Percentage"
-  )
+  ) +
+  scale_y_continuous(labels = scales::percent)
 ```
 
 From the graph above, we can see that both ICD Rollups have similar distributions, with diabetes occuring more often in the older HCA population (~60 years old). However, we have to keep in mind that this distribution is very similar to the overall HCA age distribution.
@@ -217,7 +218,8 @@ ggplot(hypertension_age_percentage) +
     title="Hypertension by Age",
     x="Age",
     y="Percentage"
-  )
+  ) +
+  scale_y_continuous(labels = scales::percent)
 ```
 
 As we can see from the graph above, the distribution for Hypertension is similar to the distribution for Diabetes, but we still have to keep in mind the distribution of our overall HCA population. 
@@ -246,7 +248,8 @@ ggplot(cancer_age_percentage) +
     title="Top 5 Cancers by Age",
     x="Age",
     y="Percentage"
-  )
+  ) +
+  scale_y_continuous(labels = scales::percent)
 ```
 
 We can see that cancer has a similar distribution to diabetes and hypertension. However, when we look at the different types of cancers, we can see that ICD Rollups like **Cancer; other primary** have a more even distribution across the ages. Once again we see much higher occurrences for **Cancer of the breast** most likely due to the high population of female HCAs.
@@ -269,7 +272,8 @@ ggplot(obesity_age_percentage) +
     title="Obesity by Age",
     x="Age",
     y="Percentage"
-  )
+  ) +
+  scale_y_continuous(labels = scales::percent)
 ```
 
 Unlike the previous chronic diseases, obesity is slightly more evenly distributed. It peaks at several different ages, but more so around ~50 years old; slightly younger than the previous diseases.
