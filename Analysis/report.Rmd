@@ -12,16 +12,13 @@ library(ggplot2)
 library(knitr)
 library(plotly)
 
-med <- read.csv('../../data/claims_med_interns_2016-2018.csv', stringsAsFactors = F)
+med <- read.csv('../../data/claims_med_interns_2016-2018_20190228.csv', stringsAsFactors = F)
 #pharm <- read.csv('../../data/claims_pharm_capstone_2016-2018.csv', stringsAsFactors = F)
 
 #med data analysis
 med_revise <- med %>% select("Member.ID.Encrypted", "Claim.ID","Member.Gender",
-                             "Age","Primary.ICD.Diagnosis.Code","Primary.ICD.Rollup",
-                      "X2nd.ICD.Diagnosis.Code","X2nd.ICD.Rollup",
-                      "X3rd.ICD.Diagnosis.Code","X3rd.ICD.Rollup",
-                      "X4th.ICD.Diagnosis.Code", "X4th.ICD.Rollup", 
-                      "Incurred.Year", "CCHG.Label", "Zip..5.digit.") %>% 
+                             "Age", 17:46, 
+                      "Incurred.Year", "Zip..5.digit.") %>% 
   filter(med$Zip..5.digit. < 99403 & med$Zip..5.digit. > 98000)
 
 # get data of chronic diseases
@@ -45,8 +42,6 @@ The relevant chronic conditions (and their respective ICD-10 codes) we will focu
 - Asthma and chronic obstructive pulmonary disorder (COPD)
 - Cholesterol (E78)
 - Sleep disorders (insomnia ICD-10 is G47)
-- Pain (R52 = Pain, unspecified)
-- Injury
 
 
 ``` {r echo=FALSE}
@@ -79,46 +74,25 @@ Once this is done, we will address the first limitation mentioned above.
 
 
 ### 1.2 What's up with Cardiovascular?
-
-Cardiovascular includes claims with the Primary ICD Rollup of *"Diseases of the Heart."* Cardiovascular has a lot of ICD codes involved, which could attest to its volume shown in the visual above. Let's break it down to see what's really going on!
-
 ``` {r echo=FALSE}
 cardio_type <- cardiovascular %>% 
-  group_by(Primary.ICD.Diagnosis.Code) %>% 
+  group_by(Primary.ICD.Diagnosis.Desc) %>% 
   distinct(Member.ID.Encrypted) %>% 
   summarise(count = n()) %>%
   arrange(-count)
-
-ggplot(data=cardio_type[1:10,], aes(x=reorder(Primary.ICD.Diagnosis.Code, count), y=count)) +
-  geom_bar(position="dodge",stat="identity", fill = 'blue') + 
-  coord_flip() +
-  labs(title = "Most Common Cardiovascular Types", x = "Type of CardioVascular")
 ```
 
+Cardiovascular includes claims with the Primary ICD Rollup of *"Diseases of the Heart."* Cardiovascular has **`r nrow(cardio_type)`** ICD codes involved, which could attest to its volume shown in the visual above. Let's break it down to see what's really going on!
 
-We actually have **`r nrow(cardio_type)`** ICD codes falling under Cardiovascular chronic disease!
+####Cardiovascular top 10 ICD codes
+``` {r echo=FALSE}
 
-Translations of Codes:
+ggplot(data=cardio_type[1:10,], aes(x=reorder(Primary.ICD.Diagnosis.Desc, count), y=count)) +
+  geom_bar(position="dodge",stat="identity", fill = 'blue') + 
+  coord_flip() +
+  labs(title = "Most Common Cardiovascular Types", x = "ICD Desc")
+```
 
-**R079**: Chest pain, unspecified
-
-**R0789**: Other chest pain
-
-**R002**: Palpitations
-
-**I2510**: Atherosclerotic heart disease of native coronary artery without angina pectoris
-
-**I4891**: Unspecified atrial fibrillation
-
-**I480**: Paroxysmal atrial fibrillation
-
-**R072**: Precordial pain
-
-**I214**: Non-ST elevation (NSTEMI) myocardial infarction
-
-**R000**: Tachycardia, unspecified
-
-**I471**: Supraventricular tachycardia
 
 
 
@@ -156,21 +130,217 @@ ggplot(gender_df) +
 
 Of the HCA population that filed claims (*`r nrow(gender_df)`* members), **`r round(nrow(female)/nrow(gender_df), 2) * 100`%** are female and only **`r round((nrow(gender_df) - nrow(female)) / nrow(gender_df), 2) * 100`%** are male.
 
-Next steps: We will continue to research ICD-10 codes to see what may correspond with the chronic diseases of interest. We will also begin to incorporate other ICD Rollups provided along with the Primary ICD Rollups we have included into our visualizations.
+Now let's look into the ICD codes to understand what kind of diagnosis are the most common ones for breast cancer,  uterus cervix cancer and other primary cancer.
 
 
-## 2. Instances of chronic disease by location
+####Top 10 ICD codes for breast cancer
+``` {r echo=FALSE}
+breast_cancer <- cancer %>% 
+  filter(Primary.ICD.Rollup == "Cancer of breast") %>% 
+  group_by(Primary.ICD.Diagnosis.Desc) %>% 
+  distinct(Member.ID.Encrypted) %>% 
+  summarise(count = n()) %>%
+  arrange(-count)
 
-Tableau visualizations of chronic disease by county shown [here](https://public.tableau.com/profile/katie.breland#!/vizhome/Book1dealingwithcounties/ChronicConditionbyCountyDashboard).
+ggplot(data=breast_cancer[1:10,], aes(x=reorder(Primary.ICD.Diagnosis.Desc, count), y=count)) +
+  geom_bar(position="dodge",stat="identity", fill = 'pink') + 
+  coord_flip() +
+  labs(title = "Occurrences of Breast Cancer", x = "ICD Desc")
+```
+We actually have **`r nrow(breast_cancer)`** ICD codes!
 
 
-```{r echo=FALSE} 
 
+####Top 12 ICD codes for uterus and cervix cancer
+``` {r echo=FALSE}
+uterus_cervix_cancer <- cancer %>% 
+  filter(Primary.ICD.Rollup == "Cancer of uterus and cervix") %>% 
+  group_by(Primary.ICD.Diagnosis.Desc) %>% 
+  distinct(Member.ID.Encrypted) %>% 
+  summarise(count = n()) %>%
+  arrange(-count)
+
+ggplot(data=uterus_cervix_cancer[1:12,], aes(x=reorder(Primary.ICD.Diagnosis.Desc, count), y=count)) +
+  geom_bar(position="dodge",stat="identity", fill = 'pink') + 
+  coord_flip() +
+  labs(title = "Occurrences of Cancer of uterus and cervix", x = "ICD Desc")
 ```
 
-## 3. What is the age distribution for chronic disease?
 
-### 3.1 Let's take a look at Diabetes
+####Top 10 ICD codes for other primary cancer
+The graph below shows the top 10 ICD codes for other primary cancers are neoplasm(abnormal and excessive growth of tissue) in facial glands and organs.
+
+``` {r echo=FALSE}
+other_cancer <- cancer %>% 
+  filter(Primary.ICD.Rollup == "Cancer; other primary") %>% 
+  group_by(Primary.ICD.Diagnosis.Desc) %>% 
+  distinct(Member.ID.Encrypted) %>% 
+  summarise(count = n()) %>%
+  arrange(-count)
+
+ggplot(data=other_cancer[1:10,], aes(x=reorder(Primary.ICD.Diagnosis.Desc, count), y=count)) +
+  geom_bar(position="dodge",stat="identity", fill = 'pink') + 
+  coord_flip() +
+  labs(title = "Occurrences of Cancer of other primary", x = "ICD Desc")
+```
+We actually have **`r nrow(other_cancer)`** ICD codes!
+
+
+
+### 1.4 What's up with Diabetes?
+
+Diabetes includes claims with the Primary ICD Rollup of *"Diabetes mellitus with/without complications."* Diabetes has a lot of ICD codes involved, which could attest to its volume shown in the visual above. Let's break it down to see what's really going on!
+####Diabetes top 10 ICD codes
+``` {r echo=FALSE}
+diabetes_type <- diabetes %>% 
+  group_by(Primary.ICD.Diagnosis.Desc) %>% 
+  distinct(Member.ID.Encrypted) %>% 
+  summarise(count = n()) %>%
+  arrange(-count)
+
+ggplot(data=diabetes_type[1:10,], aes(x=reorder(Primary.ICD.Diagnosis.Desc, count), y=count)) +
+  geom_bar(position="dodge",stat="identity", fill = 'blue') + 
+  coord_flip() +
+  labs(title = "Most Common diabetes Types", x = "ICD Desc")
+```
+
+We actually have **`r nrow(diabetes_type)`** ICD codes falling under diabetes condition!
+
+### 1.5 Now let's look at Hypertension?
+
+``` {r echo=F}
+hypertension_type <- hypertension %>% 
+  group_by(Primary.ICD.Diagnosis.Desc) %>% 
+  distinct(Member.ID.Encrypted) %>% 
+  summarise(count = n()) %>%
+  select(Primary.ICD.Diagnosis.Desc)
+```
+
+Hypertension includes claims with the Primary ICD Rollup of *"Hypertension"* It has only one ICD codes involved: `hypertension_type`.
+
+### 1.6 Now let's look at Musculoskeletal conditions?
+
+Musculoskeletal conditions includes claims with the Primary ICD Rollup of *"Other bone disease and musculoskeletal deformities"* It has a lot of ICD codes involved, which could attest to its volume shown in the visual above. Let's break it down to see what's really going on!
+
+####Musculoskeletal top 10 ICD codes
+``` {r echo=FALSE}
+musculoskeletal_type <- musculoskeletal %>% 
+  group_by(Primary.ICD.Diagnosis.Desc) %>% 
+  distinct(Member.ID.Encrypted) %>% 
+  summarise(count = n()) %>%
+  arrange(-count)
+
+ggplot(data=musculoskeletal_type[1:10,], aes(x=reorder(Primary.ICD.Diagnosis.Desc, count), y=count)) +
+  geom_bar(position="dodge",stat="identity", fill = 'blue') + 
+  coord_flip() +
+  labs(title = "Most Common musculoskeletal Types", x = "ICD Desc")
+```
+
+We actually have **`r nrow(musculoskeletal_type)`** ICD codes falling under musculoskeletal condition!
+
+### 1.7 Now let's look at obesity?
+
+Obesity includes claims with the Primary ICD Rollup of *"Other nutritional; endocrine; and metabolic disorders"* It has 6 ICD codes involved, which could attest to its volume shown in the visual above. Let's break it down to see what's really going on!
+
+####Obesity top 6 ICD codes
+``` {r echo=FALSE}
+obesity_type <- obesity %>% 
+  group_by(Primary.ICD.Diagnosis.Desc) %>% 
+  distinct(Member.ID.Encrypted) %>% 
+  summarise(count = n()) %>%
+  arrange(-count)
+
+ggplot(data=obesity_type[1:6,], aes(x=reorder(Primary.ICD.Diagnosis.Desc, count), y=count)) +
+  geom_bar(position="dodge",stat="identity", fill = 'white') + 
+  coord_flip() +
+  labs(title = "Most Common obesity Types", x = "ICD Desc")
+```
+
+
+### 1.8 Now let's look at asthma conditions?
+
+Asthma conditions includes claims with the Primary ICD Rollup of *"Asthma"* It has 10 ICD codes involved, which could attest to its volume shown in the visual above. Let's break it down to see what's really going on!
+
+####Asthma top 10 ICD codes
+``` {r echo=FALSE}
+asthma_type <- asthma %>% 
+  group_by(Primary.ICD.Diagnosis.Desc) %>% 
+  distinct(Member.ID.Encrypted) %>% 
+  summarise(count = n()) %>%
+  arrange(-count)
+
+ggplot(data=asthma_type[1:10,], aes(x=reorder(Primary.ICD.Diagnosis.Desc, count), y=count)) +
+  geom_bar(position="dodge",stat="identity", fill = 'white') + 
+  coord_flip() +
+  labs(title = "Most Common asthma Types", x = "ICD Desc")
+```
+
+
+### 1.9 Now let's look at COPD conditions?
+
+COPD(chronic obstructive pulmonary disorder) conditions includes claims with the Primary ICD Rollup of *"Chronic obstructive pulmonary disease and bronchiectasis"* It has 11 ICD codes involved, which could attest to its volume shown in the visual above. Let's break it down to see what's really going on!
+
+####COPD top 11 ICD codes
+``` {r echo=FALSE}
+copd_type <- copd %>% 
+  group_by(Primary.ICD.Diagnosis.Desc) %>% 
+  distinct(Member.ID.Encrypted) %>% 
+  summarise(count = n()) %>%
+  arrange(-count)
+
+ggplot(data=copd_type[1:10,], aes(x=reorder(Primary.ICD.Diagnosis.Desc, count), y=count)) +
+  geom_bar(position="dodge",stat="identity", fill = 'white') + 
+  coord_flip() +
+  labs(title = "Most Common copd Types", x = "ICD Desc")
+```
+
+
+### 1.9.1 Now let's look at cholesterol conditions?
+
+Cholesterol conditions includes claims with the Primary ICD Rollup of *"Disorders of lipid metabolism"* It has 9 ICD codes involved, which could attest to its volume shown in the visual above. Let's break it down to see what's really going on!
+
+####Cholesterol top 9 ICD codes
+``` {r echo=FALSE}
+cholesterol_type <- cholesterol %>% 
+  group_by(Primary.ICD.Diagnosis.Desc) %>% 
+  distinct(Member.ID.Encrypted) %>% 
+  summarise(count = n()) %>%
+  arrange(-count)
+
+ggplot(data=cholesterol_type[1:9,], aes(x=reorder(Primary.ICD.Diagnosis.Desc, count), y=count)) +
+  geom_bar(position="dodge",stat="identity", fill = 'purple') + 
+  coord_flip() +
+  labs(title = "Most Common cholesterol Types", x = "ICD Desc")
+```
+
+
+### 1.9.2 Now let's look at sleep disorder?
+
+Sleep_disorders includes claims with the Primary ICD Rollup of *"Unknown"* It has a lot of ICD codes involved, which could attest to its volume shown in the visual above. Let's break it down to see what's really going on!
+
+####Sleep disorder top 10 ICD codes
+``` {r echo=FALSE}
+sleep_type <- sleep_disorders %>% 
+  group_by(Primary.ICD.Diagnosis.Desc) %>% 
+  distinct(Member.ID.Encrypted) %>% 
+  summarise(count = n()) %>%
+  arrange(-count)
+
+ggplot(data=sleep_type[1:10,], aes(x=reorder(Primary.ICD.Diagnosis.Desc, count), y=count)) +
+  geom_bar(position="dodge",stat="identity", fill = 'purple') + 
+  coord_flip() +
+  labs(title = "Most Common sleep disorder Types", x = "ICD Desc")
+```
+
+We actually have **`r nrow(sleep_type)`** ICD codes!
+
+####Next Step
+So far, we have been able to break down the primary ICD rollups to correlated ICD codes and descriptions for each interested chronic condition. For the next step, we will sort all the ICD roll-ups(primary to 10th) for each member and analyze the chronic condition overall.
+
+
+## 2. What is the age distribution for chronic disease?
+
+### 2.1 Let's take a look at Diabetes
 
 Diabetes can be broken down into two different ICD Rollups; **Diabetes mellitus with complications** and **Diabetes mellitus without complications**.
 
@@ -200,7 +370,7 @@ From the graph above, we can see that both ICD Rollups have similar distribution
 
 Next steps: We hope to look into the distributions by different types of diabetes (i.e. Type 1, Type 2). In addition, we will look into the correlation between diabetes and other chronic diseases/factors influencing health of interest.
 
-### 3.2 What about Hypertension?
+### 2.2 What about Hypertension?
 
 Hyptension, otherwise known as High Blood Pressure, is a common condition among U.S. adults. Let's look into the age distribution for Hypertension!
 
@@ -226,7 +396,7 @@ As we can see from the graph above, the distribution for Hypertension is similar
 
 Next steps: We want to look into the correlations between Hypertension and different chronic diseases/factors influencing health. Hypertension increases risk for other diseases and many factors such as diet can contribute to Hypertension, so this would be an interesting area to explore.
 
-### 3.3 What can we see with Cancer?
+### 2.3 What can we see with Cancer?
 
 As we saw earlier, there are many different types of cancer. Let's take a look at the top five types of cancer the HCA population have been diagnosed with.
 
@@ -254,7 +424,7 @@ ggplot(cancer_age_percentage) +
 
 We can see that cancer has a similar distribution to diabetes and hypertension. However, when we look at the different types of cancers, we can see that ICD Rollups like **Cancer; other primary** have a more even distribution across the ages. Once again we see much higher occurrences for **Cancer of the breast** most likely due to the high population of female HCAs.
 
-### 3.4 Looking into Obesity
+### 2.4 Looking into Obesity
 
 Obesity falls under the **Other nutritional; endocrine; and metabolic disorders** ICD Rollup. What is the distribution of HCAs who were diagnosed with obesity?
 
