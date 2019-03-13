@@ -13,7 +13,11 @@ library(knitr)
 library(plotly)
 
 med <- read.csv('../../data/claims_med_interns_2016-2018_20190228.csv', stringsAsFactors = F)
+enrollment <- read.csv('../../data/enroll_interns_2016-2018_20190304.csv', stringsAsFactors = F)
 #pharm <- read.csv('../../data/claims_pharm_capstone_2016-2018.csv', stringsAsFactors = F)
+
+#join enrollment with med to get all HCAs
+med_enrollment <- med %>% right_join(enrollment)
 
 #med data analysis
 med_revise <- med %>% select("Member.ID.Encrypted", "Claim.ID","Member.Gender",
