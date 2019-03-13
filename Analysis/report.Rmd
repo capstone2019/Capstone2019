@@ -352,13 +352,17 @@ Diabetes can be broken down into two different ICD Rollups; **Diabetes mellitus 
 age_dist <- med_enrollment %>% 
   group_by(Age) %>% 
   summarise(count = n())
+age_dist <- age_dist[!(age_dist$Age==255),]
 
 diabetes_age <- diabetes %>% 
   group_by(Age, Primary.ICD.Rollup) %>% 
   distinct(Member.ID.Encrypted) %>% 
   summarise(count = n())
 
-diabetes_age_percentage <- left_join(diabetes_age, age_dist, by= "Age") %>% mutate(percentage = count.x/count.y)
+diabetes_age_percentage <- right_join(diabetes_age, age_dist, by= "Age")
+diabetes_age_percentage$count.x[is.na(diabetes_age_percentage$count.x)] <- 0
+diabetes_age_percentage <- mutate(diabetes_age_percentage, percentage = count.x/count.y)
+diabetes_age_percentage <- filter(diabetes_age_percentage, !is.na(Primary.ICD.Rollup))
 
 ggplot(diabetes_age_percentage) + 
   geom_bar(aes(x=Age, y=percentage, fill=Primary.ICD.Rollup), position="stack", stat="identity") +
@@ -384,7 +388,9 @@ hypertension_age <- hypertension %>%
   distinct(Member.ID.Encrypted) %>% 
   summarise(count = n())
 
-hypertension_age_percentage <- left_join(hypertension_age, age_dist, by= "Age") %>% mutate(percentage = count.x/count.y)
+hypertension_age_percentage <- right_join(hypertension_age, age_dist, by= "Age")
+hypertension_age_percentage$count.x[is.na(hypertension_age_percentage$count.x)] <- 0
+hypertension_age_percentage <- mutate(hypertension_age_percentage, percentage = count.x/count.y)
 
 ggplot(hypertension_age_percentage) + 
   geom_bar(aes(x=Age, y=percentage), stat="identity", fill="pink") +
@@ -414,7 +420,10 @@ cancer_age <- cancer %>%
   summarise(count = n()) %>% 
   filter(Primary.ICD.Rollup %in% top_5_cancer$Primary.ICD.Rollup)
 
-cancer_age_percentage <- left_join(cancer_age, age_dist, by= "Age") %>% mutate(percentage = count.x/count.y)
+cancer_age_percentage <- right_join(cancer_age, age_dist, by= "Age")
+cancer_age_percentage$count.x[is.na(cancer_age_percentage$count.x)] <- 0
+cancer_age_percentage <- mutate(cancer_age_percentage, percentage = count.x/count.y)
+cancer_age_percentage <- filter(cancer_age_percentage, !is.na(Primary.ICD.Rollup))
 
 ggplot(cancer_age_percentage) + 
   geom_bar(aes(x=Age, y=percentage, fill=Primary.ICD.Rollup), position="stack", stat="identity") +
@@ -438,7 +447,9 @@ obesity_age <- obesity %>%
   distinct(Member.ID.Encrypted) %>% 
   summarise(count = n())
 
-obesity_age_percentage <- left_join(obesity_age, age_dist, by= "Age") %>% mutate(percentage = count.x/count.y)
+obesity_age_percentage <- right_join(obesity_age, age_dist, by= "Age")
+obesity_age_percentage$count.x[is.na(obesity_age_percentage$count.x)] <- 0
+obesity_age_percentage <- mutate(obesity_age_percentage, percentage = count.x/count.y)
 
 ggplot(obesity_age_percentage) + 
   geom_bar(aes(x=Age, y=percentage), stat="identity", fill="orange") +
