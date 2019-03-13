@@ -349,7 +349,7 @@ So far, we have been able to break down the primary ICD rollups to correlated IC
 Diabetes can be broken down into two different ICD Rollups; **Diabetes mellitus with complications** and **Diabetes mellitus without complications**.
 
 ```{r echo=FALSE} 
-age_dist <- med_revise %>% 
+age_dist <- med_enrollment %>% 
   group_by(Age) %>% 
   summarise(count = n())
 
