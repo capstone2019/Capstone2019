@@ -1,0 +1,95 @@
+---
+title: "Kruskal-Wallis test"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(agricolae)
+library(coin)
+med <- read.csv('data/reshaped_med.csv', stringsAsFactors = F)
+enroll <- read.csv('data/enroll.csv', stringsAsFactors = F)
+
+colnames(enroll)[colnames(enroll)=="Member.ID.Encrypted"] <- "member_id"
+colnames(enroll)[colnames(enroll)=="Incurred.Year"] <- "year"
+colnames(enroll)[colnames(enroll)=="Total.Medical.Member.Months"] <- "month"
+colnames(enroll)[colnames(enroll)=="Age"] <- "age"
+
+data <- merge(x = med, y = enroll, by = c('member_id', 'year', 'age'), all.x = TRUE)
+
+get_kruskal <- function(binary){
+  kruskal.test(binary ~ month, data = data) 
+}
+
+detail <- function(binary){
+  kruskal(data$month, binary, console = TRUE)
+}
+
+asthma_detail <- detail(data$binary_asthma)
+bp_detail <- detail(data$binary_bp)
+cancer_detail <- detail(data$binary_cancer)
+cardiovascular_detail <- detail(data$binary_cardiovascular)
+cholesterol_detail <- detail(data$binary_cholesterol)
+copd_detail <- detail(data$binary_copd)
+diabetes_detail <- detail(data$binary_diabetes)
+kidney_detail <- detail(data$binary_kidney)
+mental_disorder_detail <- detail(data$binary_mental_disorder)
+musculoskeletal_detail <- detail(data$binary_musculoskeletal)
+obesity_detail <- detail(data$binary_obesity)
+
+```
+
+## Asthma
+```{r}
+get_kruskal(data$binary_asthma)
+```
+
+## bp
+```{r}
+get_kruskal(data$binary_bp)
+```
+
+## Cancer
+```{r}
+get_kruskal(data$binary_cancer)
+```
+
+## Cardiovascular
+```{r}
+get_kruskal(data$binary_cardiovascular)
+```
+
+## Cholesterol
+```{r}
+get_kruskal(data$binary_cholesterol)
+```
+
+## Copd
+```{r}
+get_kruskal(data$binary_copd)
+```
+
+## Diabetes
+```{r}
+get_kruskal(data$binary_diabetes)
+```
+
+## Kidney
+```{r}
+get_kruskal(data$binary_kidney)
+```
+
+## Mental Disorder
+```{r}
+get_kruskal(data$binary_mental_disorder)
+```
+
+## Musculoskeletal
+```{r}
+get_kruskal(data$binary_musculoskeletal)
+```
+
+## Obesity
+```{r}
+get_kruskal(data$binary_obesity)
+```
