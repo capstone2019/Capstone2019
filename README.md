@@ -8,25 +8,23 @@ A project team from the University of Washington Information School in partnersh
 
 Home Care Aides (HCAs) are the future of long-term care in the USA, allowing older adults and people with disabilities to live in the community and age in place. Unfortunately, a significant portion of the HCA workforce suffers from high rates of chronic diseases. Our team has partnered with SEIU 775 Benefits Group to understand and communicate the prevalence of chronic diseases in the HCA workforce through statistical analysis and evaluation. By utilizing medical insurance claim data, our team has generated an interactive report that provides information on a vulnerable group of healthcare providers in order to support the future of a healthy workforce. 
 
-Timeline: January 2019 - June 2019
+**Timeline**: January 2019 - June 2019
 
-**[Landing Page](https://katiebre26.wixsite.com/hca-chronic-diseases)**
+Please check out our **[Landing Page](https://katiebre26.wixsite.com/hca-chronic-diseases)**!
 
-## Who are Home Care Aids?
-HCAs are an integral part of the Healthcare Workforce.
-
-The job of an HCA allows older adults and people with disabilities to live in the community and age in place by providing in home care.
+## Who are Home Care Aides?
+HCAs are an integral part of the Healthcare Workforce. The job of an HCA allows older adults and people with disabilities to live in the community and age in place by providing in home care.
 
 They are:
 - Primarily Female: SEIU 775's HCA population is 84% female and 16% male.
 - Older Adults: The average age of an HCA working for SEIU 775 is 48 years old
 - Diverse: The HCA population comes from a wide array of backgrounds
 
-**Home Care Aide is one of the fastest growing jobs in the country**
+*Home Care Aide is one of the fastest growing jobs in the country*
 
-44,000 Caregivers are currently working in Washington State.
+**44,000** Caregivers are currently working in Washington State.
 
-76,000 Caregivers will be needed in Washington State by the year 2030.
+**76,000** Caregivers will be needed in Washington State by the year 2030.
 
 
 ## Why the Project Matters
@@ -37,7 +35,7 @@ Chronic diseases are defined as conditions that last one year or more and requir
  
 The prevalence and determinants of disparities in chronic diseases within the HCA population in Washington State are currently unknown, however, these unknowns can be better understood through the analysis of data drawn from medical insurance claims. Through the findings revealed in the analysis, the SEIU Health Trust team will better be able to create a plan to address these disparities.  
 
-**Working with this Data will help...**
+**Working with this data will help...**
 - Track progress of health outcomes over time
 - Generate information on a vulnerable group of health care providers about whom we know very little
 - Address health disparities with appropriate allocation of resources
@@ -59,7 +57,7 @@ __UW iSchool Capstone__
 ![Yasmine](/imgs/Yasmine.png)
 
 __Yasmine Hejazi__
-- Role: Data Analyst
+- Role: Project Manager & Data Analyst
 - Email: yhejazi@uw.edu
 - Experience: Data Analyst Intern at PEMCO Insurance, Software Engineer Intern at Empower UC Berkeley, Research Assistant at UW Sociolinguistics Lab
 
@@ -73,13 +71,13 @@ __Vanessa Hsu__
 ![Anni](/imgs/Anni.png)
 
 __Anni Yan__
-- Role: UX Designer
+- Role: Data Analyst
 - Email: yan530@uw.edu
 - Experience: Program Coordinator Assistant at UW Continuum, Teaching Assistant at UW iSchool, Project Management Assistant at Portedi
 
 ![Katie](/imgs/Katie.png)
 
 __Katie Breland__
-- Role: Technical Writer
+- Role: UX Designer
 - Email: katiebre26@gmail.com
 - Experience: Head Conceptual Designer for SeismoCard , Multimedia Specialist for UW Housing & Food Services
