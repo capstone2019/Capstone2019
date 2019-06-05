@@ -1,22 +1,47 @@
 # Capstone 2019 - Team Empower
 
-## Chronic Disease Disparities Project
+## Health Equity of Home Care Aids
 
-Home Care Aides (HCAs) are the future of long-term care in the USA, allowing older adults and people with disabilities live in the community, and age in place.
+## About the Project
 
-We know that
-- a significant proportion of our workforce have high rates of chronic disease
-- the HCA population is socio-economically disadvantaged
+A project team from the University of Washington Information School in partnership with SEIU 775 Benefits Group conducted data analysis in order to understand and communicate the prevalence of chronic diseases in the Home Care Aide workforce through statistical analysis and evaluation
 
-But what we do not know is: __The prevalence, and determinants of disparities in chronic disease conditions within the HCA population in the state of Washington__
+Home Care Aides (HCAs) are the future of long-term care in the USA, allowing older adults and people with disabilities to live in the community and age in place. Unfortunately, a significant portion of the HCA workforce suffers from high rates of chronic diseases. Our team has partnered with SEIU 775 Benefits Group to understand and communicate the prevalence of chronic diseases in the HCA workforce through statistical analysis and evaluation. By utilizing medical insurance claim data, our team has generated an interactive report that provides information on a vulnerable group of healthcare providers in order to support the future of a healthy workforce. 
 
-It is imperative to know empirically how are chronic diseases disproportionately represented among certain groups within the HCA population so that we develop evidence based interventions, both preventive and curative. Evidence from this project will
-- help with appropriate allocation of resources to address health disparities
-- track progress in health outcomes over time
+Timeline: January 2019 - June 2019
+
+**[Landing Page](https://katiebre26.wixsite.com/hca-chronic-diseases)**
+
+## Who are Home Care Aids?
+HCAs are an integral part of the Healthcare Workforce.
+
+The job of an HCA allows older adults and people with disabilities to live in the community and age in place by providing in home care.
+
+They are:
+- Primarily Female: SEIU 775's HCA population is 84% female and 16% male.
+- Older Adults: The average age of an HCA working for SEIU 775 is 48 years old
+- Diverse: The HCA population comes from a wide array of backgrounds
+
+**Home Care Aide is one of the fastest growing jobs in the country**
+
+44,000 Caregivers are currently working in Washington State.
+
+76,000 Caregivers will be needed in Washington State by the year 2030.
+
+
+## Why the Project Matters
+
+_"This project is key to helping ensure equity to support the future of a healthy workforce"_
+
+Chronic diseases are defined as conditions that last one year or more and require medical attention and/or limit activities of daily living. Many adults suffer from chronic diseases including a significant proportion of SEIU 775’s HCA workforce. This diverse population of HCAs is also known to historically suffer from socio-economic disadvantages. 
+ 
+The prevalence and determinants of disparities in chronic diseases within the HCA population in Washington State are currently unknown, however, these unknowns can be better understood through the analysis of data drawn from medical insurance claims. Through the findings revealed in the analysis, the SEIU Health Trust team will better be able to create a plan to address these disparities.  
+
+**Working with this Data will help...**
+- Track progress of health outcomes over time
 - Generate information on a vulnerable group of health care providers about whom we know very little
+- Address health disparities with appropriate allocation of resources
 
-
-The primary objective of the health disparities project is to __understand disparities in the prevalence of chronic disease in the HCA population using the claims data.__
 
 ## Team Profile
 
