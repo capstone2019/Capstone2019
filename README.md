@@ -57,27 +57,27 @@ __UW iSchool Capstone__
 ![Yasmine](/imgs/Yasmine.png)
 
 __Yasmine Hejazi__
-- Role: Project Manager & Data Analyst
-- Email: yhejazi@uw.edu
-- Experience: Data Analyst Intern at PEMCO Insurance, Software Engineer Intern at Empower UC Berkeley, Research Assistant at UW Sociolinguistics Lab
+Role: Project Manager & Data Analyst
+Email: yhejazi@uw.edu
+Experience: Data Analyst Intern at PEMCO Insurance, Software Engineer Intern at Empower UC Berkeley, Research Assistant at UW Sociolinguistics Lab
 
 ![Vanessa](/imgs/Vanessa.png)
 
 __Vanessa Hsu__
-- Role: Data Analyst
-- Email: vaneshsu@uw.edu
-- Experience: Software Development Intern at AT&T, Software Engineer Apprentice at Expedia
+Role: Data Analyst
+Email: vaneshsu@uw.edu
+Experience: Software Development Intern at AT&T, Software Engineer Apprentice at Expedia
 
 ![Anni](/imgs/Anni.png)
 
 __Anni Yan__
-- Role: Data Analyst
-- Email: yan530@uw.edu
-- Experience: Program Coordinator Assistant at UW Continuum, Teaching Assistant at UW iSchool, Project Management Assistant at Portedi
+Role: Data Analyst
+Email: yan530@uw.edu
+Experience: Program Coordinator Assistant at UW Continuum, Teaching Assistant at UW iSchool, Project Management Assistant at Portedi
 
 ![Katie](/imgs/Katie.png)
 
 __Katie Breland__
-- Role: UX Designer
-- Email: katiebre26@gmail.com
-- Experience: Head Conceptual Designer for SeismoCard , Multimedia Specialist for UW Housing & Food Services
+Role: UX Designer
+Email: katiebre26@gmail.com
+Experience: Head Conceptual Designer for SeismoCard , Multimedia Specialist for UW Housing & Food Services
